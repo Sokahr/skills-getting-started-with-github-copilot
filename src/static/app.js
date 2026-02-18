@@ -41,6 +41,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Helper to create a participant list HTML
+  function createParticipantsList(participants) {
+    if (!participants || participants.length === 0) {
+      return `<ul class="participants-list empty"><li>No participants yet</li></ul>`;
+    }
+    return `
+      <ul class="participants-list">
+        ${participants.map(email => `<li>${email}</li>`).join('')}
+      </ul>
+    `;
+  }
+
+  // Render activities with participants
+  function renderActivities(activities) {
+    const activitiesList = document.getElementById('activities-list');
+    activitiesList.innerHTML = '';
+    Object.entries(activities).forEach(([name, info]) => {
+      const card = document.createElement('div');
+      card.className = 'activity-card';
+      card.innerHTML = `
+        <h4>${name}</h4>
+        <p>${info.description}</p>
+        <p><strong>Schedule:</strong> ${info.schedule}</p>
+        <p><strong>Max Participants:</strong> ${info.max_participants}</p>
+        <div class="participants-section">
+          <strong>Participants:</strong>
+          ${createParticipantsList(info.participants)}
+        </div>
+      `;
+      activitiesList.appendChild(card);
+    });
+  }
+
   // Handle form submission
   signupForm.addEventListener("submit", async (event) => {
     event.preventDefault();
