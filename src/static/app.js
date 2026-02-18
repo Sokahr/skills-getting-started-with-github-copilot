@@ -20,6 +20,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const spotsLeft = details.max_participants - details.participants.length;
 
+        // Create participants section
+        const participantsSection = document.createElement("div");
+        participantsSection.className = "participants-section";
+        participantsSection.innerHTML = `
+          <strong>Participants:</strong>
+          ${
+            details.participants.length > 0
+              ? `<ul class="participants-list">
+                  ${details.participants.map(email => `<li>${email}</li>`).join('')}
+                </ul>`
+              : `<ul class="participants-list empty"><li>No participants yet</li></ul>`
+          }
+        `;
+
         activityCard.innerHTML = `
           <h4>${name}</h4>
           <p>${details.description}</p>
@@ -27,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
         `;
 
+        activityCard.appendChild(participantsSection);
         activitiesList.appendChild(activityCard);
 
         // Add option to select dropdown
